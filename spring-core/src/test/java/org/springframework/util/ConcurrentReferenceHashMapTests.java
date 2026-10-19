@@ -358,6 +358,30 @@ class ConcurrentReferenceHashMapTests {
 	}
 
 	@Test
+	void computeIfPresentRemovalUpdatesSize() {
+		this.map.put(123, "123");
+		assertThat(this.map.computeIfPresent(123, (k, v) -> null)).isNull();
+		assertThat(this.map.size()).isZero();
+		assertThat(this.map.isEmpty()).isTrue();
+	}
+
+	@Test
+	void computeRemovalUpdatesSize() {
+		this.map.put(123, "123");
+		assertThat(this.map.compute(123, (k, v) -> null)).isNull();
+		assertThat(this.map.size()).isZero();
+		assertThat(this.map.isEmpty()).isTrue();
+	}
+
+	@Test
+	void mergeRemovalUpdatesSize() {
+		this.map.put(123, "123");
+		assertThat(this.map.merge(123, "b", (v1, v2) -> null)).isNull();
+		assertThat(this.map.size()).isZero();
+		assertThat(this.map.isEmpty()).isTrue();
+	}
+
+	@Test
 	void size() {
 		assertThat(this.map).isEmpty();
 		this.map.put(123, "123");
